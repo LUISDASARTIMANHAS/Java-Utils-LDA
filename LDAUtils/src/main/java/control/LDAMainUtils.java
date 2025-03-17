@@ -18,9 +18,9 @@ import org.json.JSONObject;
  */
 public class LDAMainUtils {
 
-    public static LDAEndereco consultarCEP(String cep) throws MalformedURLException, IOException {
+    public static Endereco consultarCEP(String cep) throws MalformedURLException, IOException {
 
-        LDAEndereco ender = null;
+        Endereco ender = null;
 
         // Definir a URL do serviço ViaCEP
         URL url = new URL("https://viacep.com.br/ws/" + cep + "/json/");
@@ -45,7 +45,7 @@ public class LDAMainUtils {
         // Exibir as informações do endereço
         if (!jsonObject.has("erro")) {
 
-            ender = new LDAEndereco();
+            ender = new Endereco();
             ender.setLogradouro(jsonObject.getString("logradouro"));
             ender.setBairro(jsonObject.getString("bairro"));
             ender.setCidade(jsonObject.getString("localidade"));

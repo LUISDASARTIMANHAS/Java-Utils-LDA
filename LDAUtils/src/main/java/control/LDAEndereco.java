@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author LUIS DAS ARTIMANHAS
  */
-public class Endereco implements Serializable {
+public class LDAEndereco implements Serializable {
 
     private int idEndereco;
     private String cep;
@@ -22,10 +22,10 @@ public class Endereco implements Serializable {
     private String cidade;
     private String uf;
 
-    public Endereco() {
+    public LDAEndereco() {
     }
 
-    public Endereco(String cep, String uf, String bairro, String cidade, String logradouro, String complemento) {
+    public LDAEndereco(String cep, String uf, String bairro, String cidade, String logradouro, String complemento) {
         this.cep = cep;
         this.uf = uf;
         this.bairro = bairro;
@@ -36,7 +36,7 @@ public class Endereco implements Serializable {
 
     // Para ser UTILIZADO pela classe CLIENTE
     // Sem ID
-    public Endereco(String cep, String bairro, String logradouro, int num, String complemento, String ref) {
+    public LDAEndereco(String cep, String bairro, String logradouro, int num, String complemento, String ref) {
         this.cep = cep;
         this.uf = "";
         this.bairro = bairro;
@@ -49,7 +49,7 @@ public class Endereco implements Serializable {
 
     // Para ser UTILIZADO pela classe CLIENTE
     // Com ID
-    public Endereco(int idEnder, String cep, String bairro, String logradouro, int num, String complemento, String ref) {
+    public LDAEndereco(int idEnder, String cep, String bairro, String logradouro, int num, String complemento, String ref) {
         this.idEndereco = idEnder;
         this.cep = cep;
         this.uf = "";

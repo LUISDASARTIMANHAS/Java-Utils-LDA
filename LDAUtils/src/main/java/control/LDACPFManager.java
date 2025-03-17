@@ -8,7 +8,7 @@ package control;
  *
  * @author LUIS DAS ARTIMANHAS
  */
-public class CPFManager {
+public class LDACPFManager {
 
     //    metodo/função de validar cpf
     public static boolean ValidarCPF(String cpf) {

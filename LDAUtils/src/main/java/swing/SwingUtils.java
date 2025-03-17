@@ -13,7 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
- * @author 2023122760328
+ * @author LUIS DAS ARTIMANHAS
  */
 public class SwingUtils {
 

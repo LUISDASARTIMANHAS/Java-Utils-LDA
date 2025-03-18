@@ -13,9 +13,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
- * @author 2023122760328
+ * @author LUIS DAS ARTIMANHAS
  */
-public class SwingUtils {
+public class LDASwingUtils {
 
     public static void toggleEditable(JTextField txt) {
         if (txt.isEditable()) {
@@ -69,13 +69,13 @@ public class SwingUtils {
         try {
             javax.swing.UIManager.setLookAndFeel(className);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SwingUtils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LDASwingUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(SwingUtils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LDASwingUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(SwingUtils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LDASwingUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(SwingUtils.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LDASwingUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         SwingUtilities.updateComponentTreeUI(comp);
     }

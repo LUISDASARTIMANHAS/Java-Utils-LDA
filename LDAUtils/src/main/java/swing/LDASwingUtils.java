@@ -7,6 +7,9 @@ package swing;
 import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -17,6 +20,34 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class LDASwingUtils {
 
+    public void message(Component comp, String msg, String title) {
+        JOptionPane.showMessageDialog(
+                comp,
+                msg,
+                title,
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    public void messageError(Component comp, String msg, String title) {
+        JOptionPane.showMessageDialog(
+                comp,
+                msg,
+                title,
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    public int messageConfirm(Component comp, String msg) {
+        int opc = JOptionPane.showConfirmDialog(
+                comp,
+                msg,
+                "CONFIRMAR OPERAÇÃO",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        return opc;
+    }
+
     public static void toggleEditable(JTextField txt) {
         if (txt.isEditable()) {
             txt.setEditable(false);
@@ -24,6 +55,15 @@ public class LDASwingUtils {
             txt.setEditable(true);
         }
 
+    }
+
+    private void toogleSpinner(JCheckBox chk, JSpinner spn) {
+        if (chk.isSelected()) {
+            spn.setEnabled(true);
+        } else {
+            spn.setEnabled(false);
+            spn.setValue(0);
+        }
     }
 
     public static void toggleEnabled(JTextField txt) {
@@ -38,7 +78,10 @@ public class LDASwingUtils {
     public static void toggleEnabledAndEditable(JTextField txt) {
         toggleEnabled(txt);
         toggleEditable(txt);
+    }
 
+    public static void cleaarTxt(JTextField txt) {
+        txt.setText("");
     }
 
     public static void ChangeLookAndFeel(String NameClass, String type, Component comp) {
@@ -58,7 +101,7 @@ public class LDASwingUtils {
                 break;
             }
         } //</editor-fold>
-        if (type.equals("com.formdev.flatlaf.FlatDarkLaf") || type.equals("com.formdev.flatlaf.FlatLightLaf") ) {
+        if (type.equals("com.formdev.flatlaf.FlatDarkLaf") || type.equals("com.formdev.flatlaf.FlatLightLaf")) {
             System.out.println("Changed Personal Look And Feel to: " + type);
             UpdateLookAndFeel(type, comp);
         }

@@ -4,12 +4,19 @@
  */
 package control;
 
+import java.awt.Component;
+import java.awt.Image;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.json.JSONObject;
 
 /**
@@ -17,6 +24,35 @@ import org.json.JSONObject;
  * @author LUIS DAS ARTIMANHAS
  */
 public class LDAMainUtils {
+
+    public File carregarArq(FileNameExtensionFilter filtro, Component comp) {
+        JFileChooser fileWindow = new JFileChooser();
+
+        //        config da janela
+        fileWindow.setMultiSelectionEnabled(false);
+        fileWindow.setAcceptAllFileFilterUsed(false);
+        fileWindow.setFileFilter(filtro);
+
+        // Abrir no último diretório aberto. Na primeira vez é NULL
+//        fileWindow.setCurrentDirectory(arq);;
+        if (fileWindow.showOpenDialog(comp) == JFileChooser.APPROVE_OPTION) {
+            File arq = fileWindow.getSelectedFile();
+            return arq;
+        } else {
+            return null;
+        }
+
+    }
+
+    public static ImageIcon redimensionarImg(File arq, JLabel labelFoto) {
+        ImageIcon foto = new ImageIcon(arq.getPath());
+
+        // Redimensionar
+        Image imagem = foto.getImage();
+        Image Scale = imagem.getScaledInstance(labelFoto.getWidth(), labelFoto.getHeight(), Image.SCALE_DEFAULT);
+        foto.setImage(Scale);
+        return foto;
+    }
 
     public static Endereco consultarCEP(String cep) throws MalformedURLException, IOException {
 

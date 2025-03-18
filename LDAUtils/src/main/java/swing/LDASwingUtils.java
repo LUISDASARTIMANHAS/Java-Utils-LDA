@@ -20,7 +20,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class LDASwingUtils {
 
-    public void message(Component comp, String msg, String title) {
+    public static void message(Component comp, String msg, String title) {
         JOptionPane.showMessageDialog(
                 comp,
                 msg,
@@ -29,7 +29,7 @@ public class LDASwingUtils {
         );
     }
 
-    public void messageError(Component comp, String msg, String title) {
+    public static void messageError(Component comp, String msg, String title) {
         JOptionPane.showMessageDialog(
                 comp,
                 msg,
@@ -38,7 +38,7 @@ public class LDASwingUtils {
         );
     }
 
-    public int messageConfirm(Component comp, String msg) {
+    public static int messageConfirm(Component comp, String msg) {
         int opc = JOptionPane.showConfirmDialog(
                 comp,
                 msg,
@@ -80,7 +80,7 @@ public class LDASwingUtils {
         toggleEditable(txt);
     }
 
-    public static void cleaarTxt(JTextField txt) {
+    public static void clearTxt(JTextField txt) {
         txt.setText("");
     }
 

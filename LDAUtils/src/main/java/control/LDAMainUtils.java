@@ -25,7 +25,7 @@ import org.json.JSONObject;
  */
 public class LDAMainUtils {
 
-    public File carregarArq(FileNameExtensionFilter filtro, Component comp) {
+    public static File carregarArq(FileNameExtensionFilter filtro, Component comp, File dir) {
         JFileChooser fileWindow = new JFileChooser();
 
         //        config da janela
@@ -34,7 +34,9 @@ public class LDAMainUtils {
         fileWindow.setFileFilter(filtro);
 
         // Abrir no último diretório aberto. Na primeira vez é NULL
-//        fileWindow.setCurrentDirectory(arq);;
+        if (dir != null) {
+            fileWindow.setCurrentDirectory(dir);
+        }
         if (fileWindow.showOpenDialog(comp) == JFileChooser.APPROVE_OPTION) {
             File arq = fileWindow.getSelectedFile();
             return arq;

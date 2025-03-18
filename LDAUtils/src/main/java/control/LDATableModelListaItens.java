@@ -13,7 +13,6 @@ import javax.swing.table.AbstractTableModel;
  * @author LUIS DAS ARTIMANHAS
  */
 public class LDATableModelListaItens extends AbstractTableModel {
-
     private List listaItens = new ArrayList();
 
     @Override
@@ -30,17 +29,7 @@ public class LDATableModelListaItens extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         Object item = getItem(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                return item;
-            case 1:
-                return item.getQdte();
-            case 2:
-                return item.getPeso();
-            case 3:
-                return item.getValor();
-        }
-        return null;
+        return item;
     }
 
     public Object getItem(int rowIndex) {

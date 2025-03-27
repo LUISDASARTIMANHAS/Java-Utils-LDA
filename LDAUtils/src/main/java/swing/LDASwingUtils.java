@@ -116,6 +116,14 @@ public class LDASwingUtils {
             txt.setEnabled(true);
         }
     }
+    
+     public static void addItemComboBox(JTextField txt) {
+        if (txt.isEnabled()) {
+            txt.setEnabled(false);
+        } else {
+            txt.setEnabled(true);
+        }
+    }
 
     /**
      * Alterna tanto a habilitação quanto a edição de um campo de texto (JTextField).

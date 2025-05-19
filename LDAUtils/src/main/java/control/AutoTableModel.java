@@ -3,13 +3,23 @@ package control;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.table.AbstractTableModel;
 
 /**
  * Modelo de tabela genérico (AutoTableModel) que usa reflexão para extrair automaticamente
- * os métodos getters da classe T e construir as colunas da tabela dinamicamente.
+ * os métodos getters da classe T e construir as colunas da tabela dinamicamente,
+ * ignorando getters que retornam tipos complexos para evitar mostrar objetos inteiros na tabela.
+ * 
  * @author LUIS DAS ARTIMANHAS
+ * 
+ * USAGE:
+ * private AutoTableModel<ItemPedido> autoTable;
+ * autoTable = new AutoTableModel<>(ItemPedido.class);
+ * tblPedido.setModel(autoTable);
  * 
  * @param <T> Tipo de objeto que será exibido na tabela
  */
@@ -24,13 +34,27 @@ public class AutoTableModel<T> extends AbstractTableModel {
     // Nomes das colunas (derivados do nome dos getters)
     private final List<String> nomesColunas = new ArrayList<>();
 
+    // Conjunto de tipos simples permitidos para exibição na tabela
+    private static final Set<Class<?>> TIPOS_PERMITIDOS = new HashSet<>(Arrays.asList(
+        String.class,
+        int.class, Integer.class,
+        long.class, Long.class,
+        double.class, Double.class,
+        float.class, Float.class,
+        boolean.class, Boolean.class,
+        char.class, Character.class,
+        short.class, Short.class,
+        byte.class, Byte.class
+    ));
+
     /**
-     * Construtor: recebe a classe T e identifica seus getters publicamente acessíveis
+     * Construtor: recebe a classe T e identifica seus getters publicamente acessíveis,
+     * filtrando apenas aqueles que retornam tipos simples permitidos.
      */
     public AutoTableModel(Class<T> clazz) {
         for (Method method : clazz.getMethods()) {
-            // Verifica se o método é um getter válido
-            if (isGetter(method)) {
+            // Verifica se o método é um getter válido E retorna tipo simples
+            if (isGetter(method) && retornaTipoPermitido(method)) {
                 getters.add(method);
 
                 // Gera o nome da coluna com base no nome do método
@@ -56,40 +80,35 @@ public class AutoTableModel<T> extends AbstractTableModel {
     }
 
     /**
-     * Retorna o número de linhas da tabela (quantidade de objetos na lista de dados)
+     * Verifica se o método getter retorna um tipo simples permitido.
      */
+    private boolean retornaTipoPermitido(Method method) {
+        Class<?> tipoRetorno = method.getReturnType();
+        return TIPOS_PERMITIDOS.contains(tipoRetorno);
+    }
+
     @Override
     public int getRowCount() {
         return dados.size();
     }
 
-    /**
-     * Retorna o número de colunas (quantidade de getters encontrados)
-     */
     @Override
     public int getColumnCount() {
         return getters.size();
     }
 
-    /**
-     * Retorna o nome da coluna (baseado no nome dos getters, formatado)
-     */
     @Override
     public String getColumnName(int column) {
         return nomesColunas.get(column);
     }
 
-    /**
-     * Retorna o valor de uma célula específica da tabela,
-     * usando o método getter correspondente via reflexão
-     */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         T obj = dados.get(rowIndex);
         try {
-            return getters.get(columnIndex).invoke(obj); // Executa o getter
+            return getters.get(columnIndex).invoke(obj);
         } catch (Exception e) {
-            return "Erro"; // Em caso de exceção, retorna string de erro
+            return "Erro";
         }
     }
 
@@ -98,7 +117,7 @@ public class AutoTableModel<T> extends AbstractTableModel {
      */
     public void adicionar(T obj) {
         dados.add(obj);
-        fireTableRowsInserted(dados.size() - 1, dados.size() - 1); // Notifica o JTable
+        fireTableRowsInserted(dados.size() - 1, dados.size() - 1);
     }
 
     /**
@@ -106,7 +125,7 @@ public class AutoTableModel<T> extends AbstractTableModel {
      */
     public void remover(int indice) {
         dados.remove(indice);
-        fireTableRowsDeleted(indice, indice); // Notifica o JTable
+        fireTableRowsDeleted(indice, indice);
     }
 
     /**
@@ -115,7 +134,7 @@ public class AutoTableModel<T> extends AbstractTableModel {
     public void setDados(List<T> lista) {
         dados.clear();
         dados.addAll(lista);
-        fireTableDataChanged(); // Notifica o JTable que os dados mudaram completamente
+        fireTableDataChanged();
     }
 
     /**

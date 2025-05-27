@@ -108,7 +108,7 @@ public class AutoTableModel<T> extends AbstractTableModel {
         try {
             return getters.get(columnIndex).invoke(obj);
         } catch (Exception e) {
-            return "Erro";
+            return "Erro " + e;
         }
     }
 
@@ -126,15 +126,6 @@ public class AutoTableModel<T> extends AbstractTableModel {
     public void remover(int indice) {
         dados.remove(indice);
         fireTableRowsDeleted(indice, indice);
-    }
-
-    /**
-     * Substitui completamente a lista de dados e atualiza a tabela
-     */
-    public void setDados(List<T> lista) {
-        dados.clear();
-        dados.addAll(lista);
-        fireTableDataChanged();
     }
 
     /**

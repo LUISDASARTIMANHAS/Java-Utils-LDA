@@ -1,1 +1,7 @@
-/LDAUtils/target/
+LDAUtils/target/maven**
+LDAUtils/target/gen**
+LDAUtils/target/test**
+LDAUtils/target/class**
+
+**temp**
+**tmp**

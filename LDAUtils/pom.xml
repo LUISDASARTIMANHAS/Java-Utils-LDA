@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.sun.istack</groupId>
             <artifactId>istack-commons-runtime</artifactId>
-            <version>3.0.7</version>
+            <version>3.0.12</version>
         </dependency>
         <dependency>
             <groupId>io.smallrye</groupId>

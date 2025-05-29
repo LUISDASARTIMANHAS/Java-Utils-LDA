@@ -98,11 +98,24 @@ public abstract class MainAbstractTableModel extends AbstractTableModel {
     public Object getItem(int i) {
         return listaItens.get(i);
     }
+    
+    public void setLista(List novaLista) {
+        if ( novaLista == null || novaLista.isEmpty()) {
+            if ( !listaItens.isEmpty() ) {
+                listaItens.clear();
+                fireTableRowsDeleted(0,0);
+            }
+        } else {
+            listaItens = novaLista;
+            fireTableRowsInserted( 0, listaItens.size() - 1);
+        }
+        
+    }
 
     /**
      * Retorna a lista completa de dados
      */
-    public List<Object> getDados() {
+    public List<Object> getLista() {
         return listaItens;
     }
 

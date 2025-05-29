@@ -127,6 +127,12 @@ public class LDAMainUtils {
         connection.disconnect();
         return ender; // Retorna o objeto Endereco ou null se não encontrado
     }
+    
+    public String CalcValorTotal(int qtde, float valor, float valorTotal) {   
+        float novoValor = qtde * valor;
+        
+        return "R$ " + (valorTotal + novoValor);
+    }
 
     public static void main(String[] args) {
         System.out.println("=====================");

@@ -90,7 +90,7 @@ public class LDASwingUtils {
      * @param chk O JCheckBox que controla o JSpinner.
      * @param spn O JSpinner a ser controlado.
      */
-    private void toogleSpinner(JCheckBox chk, JSpinner spn) {
+    public void toogleSpinner(JCheckBox chk, JSpinner spn) {
         if (chk.isSelected()) {
             spn.setEnabled(true);
         } else {
@@ -121,7 +121,12 @@ public class LDASwingUtils {
         }
     }
 
-    public void loadListInComboBox(JComboBox combo, List lista) {
+    /**
+     *
+     * @param combo
+     * @param lista
+     */
+    public static void loadListInComboBox(JComboBox combo, List lista) {
         combo.setModel(new DefaultComboBoxModel(lista.toArray()));
     }
 

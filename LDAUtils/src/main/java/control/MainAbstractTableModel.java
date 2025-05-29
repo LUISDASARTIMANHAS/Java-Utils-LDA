@@ -28,10 +28,6 @@ public abstract class MainAbstractTableModel extends AbstractTableModel {
     public MainAbstractTableModel() {
     }
 
-    public List<Object> getListaItens() {
-        return listaItens;
-    }
-
     public List<Method> getGetters() {
         return getters;
     }

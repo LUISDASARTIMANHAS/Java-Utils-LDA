@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>txw2</artifactId>
-            <version>2.3.9</version>
+            <version>4.0.5</version>
         </dependency>
     </dependencies>
     <properties>

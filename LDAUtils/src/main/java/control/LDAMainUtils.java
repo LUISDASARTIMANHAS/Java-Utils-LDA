@@ -84,15 +84,15 @@ public class LDAMainUtils {
      * base no CEP.
      *
      * @param cep O CEP a ser consultado.
-     * @return Um objeto Endereco contendo as informações do endereço, ou null
-     * se o CEP não for encontrado.
+     * @param endereco
+     * @return Um objeto EnderecoCep contendo as informações do endereço, ou null
+ se o CEP não for encontrado.
      * @throws MalformedURLException Se a URL do serviço ViaCEP for malformada.
      * @throws IOException Se houver problemas de conexão ou leitura da
      * resposta.
      */
-    public static Endereco consultarCEP(String cep) throws MalformedURLException, IOException {
-        Endereco ender = null;
-
+    public static EnderecoCep consultarCEP(String cep) throws MalformedURLException, IOException {
+        EnderecoCep ender = null;
         // Define a URL do serviço ViaCEP com o CEP fornecido
         URL url = new URL("https://viacep.com.br/ws/" + cep + "/json/");
 
@@ -113,25 +113,29 @@ public class LDAMainUtils {
 
         // Verifica se a resposta contém erro
         if (!jsonObject.has("erro")) {
-            // Cria um objeto Endereco e preenche com as informações do JSON
-            ender = new Endereco();
-            ender.setLogradouro(jsonObject.getString("logradouro"));
-            ender.setBairro(jsonObject.getString("bairro"));
-            ender.setCidade(jsonObject.getString("localidade"));
-            ender.setUf(jsonObject.getString("uf"));
+            // Cria um objeto EnderecoCep e preenche com as informações do JSON
+            ender = new EnderecoCep(
+                    jsonObject.getString("logradouro"),
+                    jsonObject.getString("bairro"),
+                    jsonObject.getString("localidade"),
+                    jsonObject.getString("uf")
+            );
         } else {
             System.out.println("CEP não encontrado.");
         }
 
         // Fecha a conexão
         connection.disconnect();
-        return ender; // Retorna o objeto Endereco ou null se não encontrado
+        return ender; // Retorna o objeto EnderecoCep ou null se não encontrado
     }
     
-    public static String CalcValorTotal(int qtde, float valor, float valorTotal) {   
-        float novoValor = qtde * valor;
-        
-        return "R$ " + (valorTotal + novoValor);
+    public static float CalcValorTotal(float subTotal, float valorTotal){
+        return subTotal + valorTotal;
+    }
+    
+    
+    public static float CalcSubTotal(int qtde, float valor) {
+        return qtde * valor;
     }
 
     public static void main(String[] args) {

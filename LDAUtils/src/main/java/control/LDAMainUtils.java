@@ -6,6 +6,7 @@ package control;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -139,13 +140,19 @@ public class LDAMainUtils {
 //  Handle potential exceptions (UnsupportedAudioFileException, IOException, LineUnavailableException).
     public static synchronized void playSound(final String soundName) {
         new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+            @Override
             public void run() {
                 try {
-                    Clip clip = AudioSystem.getClip();
-                    File file = new File("src/main/resources/" + soundName + ".wav").getAbsoluteFile();
-                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
-                    clip.open(inputStream);
-                    clip.start();
+                    if (soundName == null) {
+                        Toolkit.getDefaultToolkit().beep();
+                    } else {
+
+                        Clip clip = AudioSystem.getClip();
+                        File file = new File("src/main/resources/" + soundName + ".wav").getAbsoluteFile();
+                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
+                        clip.open(inputStream);
+                        clip.start();
+                    }
                 } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
                     System.err.println(e);
                 }

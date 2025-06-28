@@ -4,10 +4,17 @@
  */
 package swing;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.*;
 
 /**
@@ -148,6 +155,43 @@ public class LDASwingUtils {
      */
     public static void clearTxt(JTextField txt) {
         txt.setText("");
+    }
+    
+    public static byte[] IconToBytes(Icon icon) {
+        if (icon == null) {
+            return null;
+        }
+        BufferedImage img = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        icon.paintIcon(null, g2d, 0, 0);
+        g2d.dispose();
+
+        byte[] bFile = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
+            try {
+                ImageIO.write(img, "png", ios);
+                // Set a flag to indicate that the write was successful
+            } finally {
+                ios.close();
+            }
+            bFile = baos.toByteArray();
+        } catch (IOException ex) {
+            bFile = null;
+            System.out.println(ex);
+        } finally {
+            return bFile;
+        }
+
+    }
+    
+    public static String validarCampo(JTextField txt, JLabel label) {
+        String msgError = "";
+        if (txt.getText().isEmpty()) {
+            msgError = txt.getName() + "inválido!.\n";
+            label.setForeground(Color.red);
+        }
+        return msgError;
     }
 
     /**

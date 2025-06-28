@@ -20,17 +20,17 @@
         <dependency>
             <groupId>com.sun.xml.fastinfoset</groupId>
             <artifactId>FastInfoset</artifactId>
-            <version>1.2.18</version>
+            <version>2.1.1</version>
         </dependency>
         <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
-            <version>2.7.7</version>
+            <version>20030911</version>
         </dependency>
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.17.5</version>
+            <version>1.17.6</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml</groupId>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.sun.istack</groupId>
             <artifactId>istack-commons-runtime</artifactId>
-            <version>3.0.12</version>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>io.smallrye</groupId>
@@ -80,12 +80,12 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.9</version>
+            <version>4.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
-            <version>3.3.2.Final</version>
+            <version>3.6.1.Final</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.transaction</groupId>
@@ -95,7 +95,7 @@
         <dependency>
             <groupId>org.jvnet.staxex</groupId>
             <artifactId>stax-ex</artifactId>
-            <version>1.8.3</version>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>txw2</artifactId>
-            <version>2.3.9</version>
+            <version>4.0.5</version>
         </dependency>
     </dependencies>
     <properties>

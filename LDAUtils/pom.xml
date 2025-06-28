@@ -9,7 +9,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20250107</version>
+            <version>20250517</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.17.5</version>
+            <version>1.17.6</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml</groupId>

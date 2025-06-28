@@ -6,6 +6,7 @@ package control;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -85,8 +91,8 @@ public class LDAMainUtils {
      *
      * @param cep O CEP a ser consultado.
      * @param endereco
-     * @return Um objeto EnderecoCep contendo as informações do endereço, ou null
- se o CEP não for encontrado.
+     * @return Um objeto EnderecoCep contendo as informações do endereço, ou
+     * null se o CEP não for encontrado.
      * @throws MalformedURLException Se a URL do serviço ViaCEP for malformada.
      * @throws IOException Se houver problemas de conexão ou leitura da
      * resposta.
@@ -128,12 +134,36 @@ public class LDAMainUtils {
         connection.disconnect();
         return ender; // Retorna o objeto EnderecoCep ou null se não encontrado
     }
-    
-    public static float CalcValorTotal(float subTotal, float valorTotal){
+
+//  Important:
+//  Ensure that the sound file format is supported by Java Sound (WAV, AIFF, AU). MP3 requires additional libraries.
+//  Handle potential exceptions (UnsupportedAudioFileException, IOException, LineUnavailableException).
+    public static synchronized void playSound(final String soundName) {
+        new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+            @Override
+            public void run() {
+                try {
+                    if (soundName == null) {
+                        Toolkit.getDefaultToolkit().beep();
+                    } else {
+
+                        Clip clip = AudioSystem.getClip();
+                        File file = new File("src/main/resources/" + soundName + ".wav").getAbsoluteFile();
+                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
+                        clip.open(inputStream);
+                        clip.start();
+                    }
+                } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                    System.err.println(e);
+                }
+            }
+        }).start();
+    }
+
+    public static float CalcValorTotal(float subTotal, float valorTotal) {
         return subTotal + valorTotal;
     }
-    
-    
+
     public static float CalcSubTotal(int qtde, float valor) {
         return qtde * valor;
     }

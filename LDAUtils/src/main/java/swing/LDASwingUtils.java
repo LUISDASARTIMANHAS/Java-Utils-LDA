@@ -4,29 +4,31 @@
  */
 package swing;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
+import javax.swing.*;
 
 /**
  * Classe utilitária contendo métodos para facilitar o uso de componentes Swing.
  * Esses métodos ajudam a exibir mensagens, alterar a aparência da interface,
  * controlar a edição e habilitação de componentes, entre outros.
- * 
+ *
  * @author LUIS DAS ARTIMANHAS
  */
 public class LDASwingUtils {
 
     /**
      * Exibe uma mensagem de informação em uma janela de diálogo.
-     * 
+     *
      * @param comp Componente pai para a janela de diálogo.
      * @param msg Mensagem a ser exibida.
      * @param title Título da janela de diálogo.
@@ -42,7 +44,7 @@ public class LDASwingUtils {
 
     /**
      * Exibe uma mensagem de erro em uma janela de diálogo.
-     * 
+     *
      * @param comp Componente pai para a janela de diálogo.
      * @param msg Mensagem de erro a ser exibida.
      * @param title Título da janela de diálogo.
@@ -58,7 +60,7 @@ public class LDASwingUtils {
 
     /**
      * Exibe uma caixa de confirmação e retorna a escolha do usuário.
-     * 
+     *
      * @param comp Componente pai para a janela de diálogo.
      * @param msg Mensagem a ser exibida.
      * @return O valor selecionado na caixa de diálogo (Sim, Não).
@@ -74,9 +76,9 @@ public class LDASwingUtils {
     }
 
     /**
-     * Alterna a propriedade de edição de um campo de texto (JTextField).
-     * Se o campo for editável, ele se torna não editável, e vice-versa.
-     * 
+     * Alterna a propriedade de edição de um campo de texto (JTextField). Se o
+     * campo for editável, ele se torna não editável, e vice-versa.
+     *
      * @param txt Campo de texto a ser modificado.
      */
     public static void toggleEditable(JTextField txt) {
@@ -88,13 +90,14 @@ public class LDASwingUtils {
     }
 
     /**
-     * Alterna a habilitação de um componente JSpinner com base na seleção de um JCheckBox.
-     * Se o JCheckBox estiver selecionado, o JSpinner será habilitado. Caso contrário, será desabilitado e seu valor é resetado.
-     * 
+     * Alterna a habilitação de um componente JSpinner com base na seleção de um
+     * JCheckBox. Se o JCheckBox estiver selecionado, o JSpinner será
+     * habilitado. Caso contrário, será desabilitado e seu valor é resetado.
+     *
      * @param chk O JCheckBox que controla o JSpinner.
      * @param spn O JSpinner a ser controlado.
      */
-    private void toogleSpinner(JCheckBox chk, JSpinner spn) {
+    public void toogleSpinner(JCheckBox chk, JSpinner spn) {
         if (chk.isSelected()) {
             spn.setEnabled(true);
         } else {
@@ -104,9 +107,9 @@ public class LDASwingUtils {
     }
 
     /**
-     * Alterna a habilitação de um campo de texto (JTextField).
-     * Se o campo estiver habilitado, ele será desabilitado, e vice-versa.
-     * 
+     * Alterna a habilitação de um campo de texto (JTextField). Se o campo
+     * estiver habilitado, ele será desabilitado, e vice-versa.
+     *
      * @param txt Campo de texto a ser modificado.
      */
     public static void toggleEnabled(JTextField txt) {
@@ -116,8 +119,8 @@ public class LDASwingUtils {
             txt.setEnabled(true);
         }
     }
-    
-     public static void addItemComboBox(JTextField txt) {
+
+    public static void addItemComboBox(JTextField txt) {
         if (txt.isEnabled()) {
             txt.setEnabled(false);
         } else {
@@ -126,8 +129,18 @@ public class LDASwingUtils {
     }
 
     /**
-     * Alterna tanto a habilitação quanto a edição de um campo de texto (JTextField).
-     * 
+     *
+     * @param combo
+     * @param lista
+     */
+    public static void loadListInComboBox(JComboBox combo, List lista) {
+        combo.setModel(new DefaultComboBoxModel(lista.toArray()));
+    }
+
+    /**
+     * Alterna tanto a habilitação quanto a edição de um campo de texto
+     * (JTextField).
+     *
      * @param txt Campo de texto a ser modificado.
      */
     public static void toggleEnabledAndEditable(JTextField txt) {
@@ -137,17 +150,56 @@ public class LDASwingUtils {
 
     /**
      * Limpa o conteúdo de um campo de texto (JTextField).
-     * 
+     *
      * @param txt Campo de texto a ser limpo.
      */
     public static void clearTxt(JTextField txt) {
         txt.setText("");
     }
+    
+    public static byte[] IconToBytes(Icon icon) {
+        if (icon == null) {
+            return null;
+        }
+        BufferedImage img = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        icon.paintIcon(null, g2d, 0, 0);
+        g2d.dispose();
+
+        byte[] bFile = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
+            try {
+                ImageIO.write(img, "png", ios);
+                // Set a flag to indicate that the write was successful
+            } finally {
+                ios.close();
+            }
+            bFile = baos.toByteArray();
+        } catch (IOException ex) {
+            bFile = null;
+            System.out.println(ex);
+        } finally {
+            return bFile;
+        }
+
+    }
+    
+    public static String validarCampo(JTextField txt, JLabel label) {
+        String msgError = "";
+        if (txt.getText().isEmpty()) {
+            msgError = txt.getName() + "inválido!.\n";
+            label.setForeground(Color.red);
+        }
+        return msgError;
+    }
 
     /**
-     * Altera a aparência da interface (Look and Feel) com base no nome da classe e tipo fornecido.
-     * 
-     * @param NameClass Nome da classe do Look and Feel (não utilizado diretamente).
+     * Altera a aparência da interface (Look and Feel) com base no nome da
+     * classe e tipo fornecido.
+     *
+     * @param NameClass Nome da classe do Look and Feel (não utilizado
+     * diretamente).
      * @param type Tipo de Look and Feel a ser aplicado.
      * @param comp Componente pai para a atualização visual.
      */
@@ -169,7 +221,7 @@ public class LDASwingUtils {
 
     /**
      * Aplica o Look and Feel especificado à aplicação.
-     * 
+     *
      * @param className O nome da classe do Look and Feel.
      * @param comp Componente pai para a atualização visual.
      */
@@ -190,7 +242,7 @@ public class LDASwingUtils {
 
     /**
      * Retorna o valor do botão de rádio selecionado em um ButtonGroup.
-     * 
+     *
      * @param btnGroup O ButtonGroup contendo os botões de rádio.
      * @return O valor (mnemonic) do botão de rádio selecionado.
      */

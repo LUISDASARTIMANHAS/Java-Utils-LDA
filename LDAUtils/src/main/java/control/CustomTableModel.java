@@ -5,9 +5,7 @@
 package control;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -32,87 +30,26 @@ import javax.swing.table.AbstractTableModel;
 //CustomTableModel<ItemPedido> modelo = new CustomTableModel<>(lista, getters, ItemPedido.class);
 //tabela.setModel(modelo);
 
-public class CustomTableModel<T> extends AbstractTableModel {
+public class CustomTableModel<Object> extends MainAbstractTableModel {
 
-    // Lista que contém os itens exibidos na tabela.
-    private List listaItens = new ArrayList();
-    private final List<Method> getters = new ArrayList<>();
-    private final List<String> nomesColunas = new ArrayList<>();
-
-    public CustomTableModel(List<String> nomesMetodosGetter, Class<T> clazz) {
+    public CustomTableModel(List<String> nomesMetodosGetter, Class<Object> clazz) {
 
         for (String nomeMetodo : nomesMetodosGetter) {
             try {
                 Method m = clazz.getMethod(nomeMetodo);
-                getters.add(m);
+                super.getGetters().add(m);
                  System.out.println("ADD GETTERS CUSTOM TABLE: " + m);
 
                 String nomeColuna = nomeMetodo.replaceFirst("get", "");
                 nomeColuna = Character.toUpperCase(nomeColuna.charAt(0)) + nomeColuna.substring(1);
-                nomesColunas.add(nomeColuna);
+                super.getNomesColunas().add(nomeColuna);
                 System.out.println("ADD COLUMN CUSTOM TABLE: " + nomeColuna);
                 System.out.println("ADD COLUMN CUSTOM TABLE: " + nomeColuna);
             } catch (NoSuchMethodException e) {   
-                nomesColunas.add("Inválido");
-                getters.add(null);
+                super.getNomesColunas().add("Inválido");
+                super.getGetters().add(null);
             }
         }
-    }
-
-    @Override
-    public int getRowCount() {
-        return listaItens.size();
-    }
-
-    @Override
-    public int getColumnCount() {
-        return getters.size();
-    }
-
-    @Override
-    public String getColumnName(int column) {
-        return nomesColunas.get(column);
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        T obj = (T) listaItens.get(rowIndex);
-        try {
-            Method metodo = getters.get(columnIndex);
-            return metodo.invoke(obj);
-        } catch (Exception e) {
-            return "Erro " + e;
-        }
-    }
-
-    /**
-     * Retorna o item presente na linha especificada.
-     *
-     * @param rowIndex O índice da linha.
-     * @return O item presente na linha especificada.
-     */
-    public T getItem(int rowIndex) {
-        return (T) listaItens.get(rowIndex);
-    }
-
-    /**
-     * Adiciona um item à lista e notifica a tabela sobre a inserção de uma nova linha.
-     *
-     * @param obj O item a ser adicionado à lista.
-     */
-    public void adicionar(T obj) {
-        listaItens.add(obj);
-        fireTableRowsInserted(listaItens.size() - 1, listaItens.size() - 1);
-    }
-
-    /**
-     * Remove um item da lista com base no índice especificado e notifica a tabela sobre a remoção da linha.
-     *
-     * @param indice O índice do item a ser removido.
-     */
-    public void remover(int indice) {
-        listaItens.remove(indice);
-        fireTableRowsDeleted(indice, indice);
     }
 
     /**
@@ -121,17 +58,8 @@ public class CustomTableModel<T> extends AbstractTableModel {
      * @param obj    O item editado a ser adicionado.
      * @param indice O índice do item a ser editado.
      */
-    public void editar(T obj, int indice) {
-        remover(indice);
-        adicionar(obj);
-    }
-
-    /**
-     * Retorna a lista atual de itens.
-     *
-     * @return A lista de itens.
-     */
-    public List<T> getLista() {
-        return listaItens;
+    public void editar(Object obj, int indice) {
+        super.remover(indice);
+        super.adicionar(obj);
     }
 }

@@ -156,7 +156,7 @@ public class LDASwingUtils {
     public static void clearTxt(JTextField txt) {
         txt.setText("");
     }
-    
+
     public static byte[] IconToBytes(Icon icon) {
         if (icon == null) {
             return null;
@@ -184,7 +184,7 @@ public class LDASwingUtils {
         }
 
     }
-    
+
     public static String validarCampo(JTextField txt, JLabel label) {
         String msgError = "";
         if (txt.getText().isEmpty()) {
@@ -192,6 +192,18 @@ public class LDASwingUtils {
             label.setForeground(Color.red);
         }
         return msgError;
+    }
+
+    private void habilitarBotoes(JButton btnInserir,JButton btnAlterar, Object obj) {
+        if (obj != null) {
+//        ao selecionar
+            btnInserir.setVisible(false);
+            btnAlterar.setVisible(true);
+        } else {
+//        limpar campos
+            btnInserir.setVisible(true);
+            btnAlterar.setVisible(false);
+        }
     }
 
     /**

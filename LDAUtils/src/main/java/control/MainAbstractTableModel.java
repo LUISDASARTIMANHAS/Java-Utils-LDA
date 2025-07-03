@@ -69,18 +69,17 @@ public abstract class MainAbstractTableModel extends AbstractTableModel {
             return "Erro " + e;
         }
     }
-    
-    
+
 //    metodos para interação na tabela
     /**
      * Adiciona um novo item à tabela
      */
-    public void adicionar(Object obj){
+    public void adicionar(Object obj) {
         listaItens.add(obj);
         fireTableRowsInserted(listaItens.size() - 1, listaItens.size() - 1);
     }
-    
-     /**
+
+    /**
      * Remove um item da tabela pelo índice
      */
     public void remover(int indice) {
@@ -94,18 +93,24 @@ public abstract class MainAbstractTableModel extends AbstractTableModel {
     public Object getItem(int i) {
         return listaItens.get(i);
     }
-    
+
     public void setLista(List novaLista) {
-        if ( novaLista == null || novaLista.isEmpty()) {
-            if ( !listaItens.isEmpty() ) {
+        if (novaLista == null || novaLista.isEmpty()) {
+            if (!listaItens.isEmpty()) {
                 listaItens.clear();
-                fireTableRowsDeleted(0,0);
+                fireTableRowsDeleted(0, 0);
             }
         } else {
             listaItens = novaLista;
-            fireTableRowsInserted( 0, listaItens.size() - 1);
+            fireTableRowsInserted(0, listaItens.size() - 1);
         }
-        
+
+    }
+
+    public void clearLista() {
+        listaItens.clear();
+        fireTableRowsDeleted(0, 0);
+
     }
 
     /**

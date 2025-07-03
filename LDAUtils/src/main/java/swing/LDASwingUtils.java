@@ -194,7 +194,7 @@ public class LDASwingUtils {
         return msgError;
     }
 
-    private void habilitarBotoes(JButton btnInserir,JButton btnAlterar, Object obj) {
+    public static void habilitarBotoes(JButton btnInserir,JButton btnAlterar, Object obj) {
         if (obj != null) {
 //        ao selecionar
             btnInserir.setVisible(false);
